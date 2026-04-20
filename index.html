@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adopta una Vida</title>
+  <meta name="description" content="Santuario y protectora de animales en Castellón. Rescatamos a los animales que nadie más acoge y muchos viven con nosotras de por vida." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --text: #1f1a1d;
+      --muted: #5e5452;
+      --accent: #fbb040;
+      --accent-dark: #e39a1f;
+      --line: #f3cf94;
+      --menu-width: 320px;
+      --max: 1080px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Inter", "Segoe UI", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(180deg, #fffdfa 0%, #fff6e8 38%, #ffe4b6 100%);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+    body.menu-open { overflow: hidden; }
+    a { color: inherit; text-decoration: none; }
+
+    .layout { display: flex; min-height: 100vh; }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      width: var(--menu-width);
+      min-width: var(--menu-width);
+      height: 100vh;
+      background: linear-gradient(180deg, rgba(255,255,255,.92) 0%, rgba(255,250,242,.88) 100%);
+      border-right: 1px solid rgba(31,26,29,.08);
+      padding: 20px 24px 24px;
+      display: flex;
+      flex-direction: column;
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .brand {
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: center;
+      padding: 0;
+    }
+    .brand img {
+      display: block;
+      width: 170px;
+      max-width: 100%;
+      height: auto;
+    }
+
+    .menu {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 0;
+    }
+    .menu a {
+      padding: 11px 15px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.76);
+      border: 1px solid rgba(31,26,29,.06);
+      transition: all .24s ease;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      white-space: nowrap;
+      letter-spacing: -0.01em;
+      box-shadow: 0 8px 18px rgba(31,26,29,.04);
+      backdrop-filter: blur(8px);
+    }
+    .menu a.active {
+      background: linear-gradient(180deg, #fbb040 0%, #ee9c20 100%);
+      color: #fff;
+      border-color: rgba(227,154,31,.55);
+      box-shadow: 0 14px 28px rgba(238,156,32,.24), inset 0 1px 0 rgba(255,255,255,.18);
+    }
+    .menu a:hover,
+    .menu a:focus {
+      background: #fff;
+      border-color: rgba(245,175,63,.18);
+      box-shadow: 0 12px 24px rgba(31,26,29,.06);
+      transform: translateY(-1px);
+    }
+
+    .main { flex: 1; min-width: 0; }
+
+    .button, .button-outline, .button-light {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 24px;
+      border-radius: 999px;
+      font-weight: 700;
+      transition: transform .18s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
+      text-decoration: none;
+      cursor: pointer;
+      line-height: 1.15;
+      min-height: 52px;
+    }
+    .button {
+      background: linear-gradient(180deg, #f6b34a 0%, #e6911a 100%);
+      color: #fff;
+      border: 1.5px solid rgba(216,146,36,.7);
+      box-shadow: 0 14px 30px rgba(230,145,26,.24), inset 0 1px 0 rgba(255,255,255,.22);
+    }
+    .button:hover {
+      background: linear-gradient(180deg, #f2ac3e 0%, #dc9223 100%);
+      border-color: rgba(216,146,36,.8);
+      transform: translateY(-1px);
+      box-shadow: 0 18px 34px rgba(216,146,36,.26), inset 0 1px 0 rgba(255,255,255,.22);
+    }
+
+    .hero {
+      min-height: auto;
+      display: flex;
+      align-items: center;
+      padding: 36px 32px 28px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.88) 0%, rgba(255,255,255,.74) 38%, rgba(255,248,237,.36) 100%),
+        url('assets/images/hero/foto-salon-perros.jpg') center/cover no-repeat;
+      z-index: 0;
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      max-width: var(--max);
+      margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 32px;
+      align-items: center;
+    }
+    .hero h2 {
+      margin: 0 0 18px;
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(4.8rem, 9vw, 8rem);
+      line-height: .82;
+      letter-spacing: -.06em;
+      max-width: 760px;
+      text-wrap: balance;
+    }
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 720px;
+      margin: 0 0 26px;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .hero-note {
+      color: #4d423b;
+      font-size: .98rem;
+      max-width: 680px;
+      text-align: center;
+      line-height: 1.45;
+    }
+    .hero-card {
+      background: linear-gradient(180deg, rgba(251,176,64,.88) 0%, rgba(247,195,104,.92) 100%);
+      color: #fff;
+      border: 1px solid rgba(227,154,31,.28);
+      border-radius: 32px;
+      padding: 32px;
+      box-shadow: 0 20px 44px rgba(227,154,31,.12);
+      backdrop-filter: blur(14px);
+    }
+    .hero-card h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 1.28rem;
+      color: #fff;
+    }
+    .hero-card ul {
+      margin: 0;
+      padding-left: 18px;
+      color: rgba(255,255,255,.95);
+    }
+
+    section {
+      padding: 48px 32px;
+      scroll-margin-top: 24px;
+    }
+    .section-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+    }
+    .section-head {
+      max-width: 760px;
+      margin-bottom: 22px;
+    }
+    .section-head h3 {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(2.5rem, 3.5vw, 3.6rem);
+      margin: 0 0 12px;
+      letter-spacing: -.03em;
+      line-height: .95;
+      color: var(--text);
+    }
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 68ch;
+    }
+
+    .grid-3, .grid-help {
+      display: grid;
+      gap: 18px;
+    }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-help { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .split-layout {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 22px;
+      align-items: start;
+    }
+    .image-card {
+      min-height: auto;
+      padding: 0;
+      overflow: hidden;
+    }
+    .image-card img {
+      width: 100%;
+      height: auto;
+      max-height: 250px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .card {
+      background: rgba(255,255,255,.94);
+      border-radius: 24px;
+      padding: 26px;
+      border: 1px solid rgba(31,26,29,.06);
+      box-shadow: 0 16px 36px rgba(31,26,29,.06);
+      backdrop-filter: blur(10px);
+      overflow: hidden;
+      position: relative;
+    }
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,0));
+      pointer-events: none;
+    }
+    .card.highlight {
+      background: linear-gradient(180deg, #f8c96f 0%, #f1b04a 100%);
+      color: #fff;
+      border: 1px solid rgba(227,154,31,.28);
+      box-shadow: 0 18px 34px rgba(227,154,31,.12);
+    }
+    .card.highlight p,
+    .card.highlight h4,
+    .card.highlight a { color: #fff; }
+    .card h4 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 1.15rem;
+    }
+    #que-hacemos .card h4 { text-align: center; }
+    .card p { margin: 0; color: var(--muted); }
+
+    #quienes-somos, #contacto { background: #fff; }
+    #que-hacemos, #animales { background: linear-gradient(180deg, #fffdf9 0%, #fff2d7 100%); }
+    #como-ayudar, #redes { background: linear-gradient(180deg, #fff8ee 0%, #ffe2b2 100%); }
+
+    .quote {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin-top: 18px;
+      line-height: 1.6;
+    }
+    .help-card .mini {
+      color: var(--muted);
+      margin: 8px 0 16px;
+      min-height: 88px;
+    }
+    .help-card .linkline {
+      margin-top: 14px;
+      font-weight: 700;
+      color: var(--accent-dark);
+      line-height: 1.6;
+    }
+    #contacto a { font-weight: 700; }
+
+    .social-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: 700;
+      padding: 0;
+    }
+    .social-icon.instagram {
+      background: linear-gradient(135deg, #833ab4 0%, #fd1d1d 50%, #fcb045 100%);
+      color: #fff;
+      border: none;
+      box-shadow: 0 12px 26px rgba(253,29,29,.22);
+    }
+    .social-icon.facebook {
+      background: #1877f2;
+      color: #fff;
+      border: none;
+      box-shadow: 0 12px 26px rgba(24,119,242,.20);
+    }
+    .social-icon.tiktok {
+      background: #111111;
+      color: #fff;
+      border: none;
+      box-shadow: 0 12px 26px rgba(17,17,17,.20);
+    }
+    .social-icon svg { display: block; }
+
+    .animal-box {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+    .socials {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 18px;
+      align-items: center;
+    }
+
+    footer {
+      padding: 36px 32px 50px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+    }
+    .footer-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .mobile-topbar {
+      display: none;
+      position: sticky;
+      top: 0;
+      z-index: 60;
+      background: rgba(247,244,239,.96);
+      border-bottom: 1px solid var(--line);
+      padding: 12px 16px;
+      backdrop-filter: blur(8px);
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .mobile-topbar a {
+      font-weight: 800;
+      color: var(--accent-dark);
+    }
+    .hamburger {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      border: 1px solid rgba(31,26,29,.08);
+      background: #fff;
+      box-shadow: 0 8px 18px rgba(31,26,29,.06);
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+    .mobile-menu {
+      position: fixed;
+      inset: 0;
+      background: rgba(22,18,15,.42);
+      backdrop-filter: blur(6px);
+      z-index: 70;
+      display: none;
+      padding: 18px;
+    }
+    .mobile-menu.open { display: block; }
+    .mobile-menu-panel {
+      background: linear-gradient(180deg, rgba(255,255,255,.98) 0%, rgba(255,250,242,.96) 100%);
+      border-radius: 24px;
+      padding: 18px;
+      max-width: 420px;
+      width: 100%;
+      margin-left: auto;
+      box-shadow: 0 20px 50px rgba(31,26,29,.16);
+      max-height: calc(100vh - 36px);
+      overflow: auto;
+    }
+    .mobile-menu-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .mobile-menu-header img {
+      width: 130px;
+      height: auto;
+      display: block;
+    }
+    .mobile-close {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      border: 1px solid rgba(31,26,29,.08);
+      background: #fff;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+    .mobile-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .mobile-nav a {
+      padding: 13px 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(31,26,29,.06);
+      box-shadow: 0 8px 18px rgba(31,26,29,.04);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    @media (max-width: 1100px) {
+      .hero-inner, .animal-box, .grid-3, .grid-help, .split-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 920px) {
+      .layout { display: block; }
+      .sidebar { display: none; }
+      .mobile-topbar { display: flex; }
+      .hero { min-height: auto; padding-top: 28px; }
+      section, .hero, footer { padding-left: 20px; padding-right: 20px; }
+      .hero h2 { font-size: clamp(3.4rem, 14vw, 5.2rem); }
+      .hero-actions { flex-direction: column; align-items: stretch; }
+      .button, .button-outline, .button-light { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="mobile-topbar">
+    <a href="#inicio">Adopta una Vida</a>
+    <button class="hamburger" type="button" aria-label="Abrir menú" aria-controls="mobile-menu" aria-expanded="false">☰</button>
+  </div>
+
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    <div class="mobile-menu-panel">
+      <div class="mobile-menu-header">
+        <img src="assets/images/logo/adopta-unavida-logo.svg" alt="Logo de Adopta una Vida">
+        <button class="mobile-close" type="button" aria-label="Cerrar menú">✕</button>
+      </div>
+      <nav class="mobile-nav" aria-label="Navegación móvil">
+        <a href="#inicio">🏠 <span>Inicio</span></a>
+        <a href="#quienes-somos">🌿 <span>Quiénes somos</span></a>
+        <a href="#que-hacemos">✨ <span>Qué hacemos</span></a>
+        <a href="#como-ayudar">❤️ <span>Cómo ayudar</span></a>
+        <a href="#animales">🐾 <span>Conoce a los animales</span></a>
+        <a href="#redes">🌐 <span>Difunde</span></a>
+        <a href="#contacto">✉️ <span>Contacto</span></a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div>
+        <div class="brand">
+          <img src="assets/images/logo/adopta-unavida-logo.svg" alt="Logo de Adopta una Vida">
+        </div>
+
+        <nav class="menu" aria-label="Navegación principal">
+          <a href="#inicio">🏠 <span>Inicio</span></a>
+          <a href="#quienes-somos">🌿 <span>Quiénes somos</span></a>
+          <a href="#que-hacemos">✨ <span>Qué hacemos</span></a>
+          <a href="#como-ayudar">❤️ <span>Cómo ayudar</span></a>
+          <a href="#animales">🐾 <span>Conoce a los animales</span></a>
+          <a href="#redes">🌐 <span>Difunde</span></a>
+          <a href="#contacto">✉️ <span>Contacto</span></a>
+        </nav>
+      </div>
+    </aside>
+
+    <main class="main">
+      <section class="hero" id="inicio">
+        <div class="hero-inner">
+          <div>
+            <h2><span style="color: var(--accent); display:block;">Adopta</span><span style="display:block;">una Vida</span></h2>
+            <p>
+              Rescatamos a los animales que nadie más acoge. Muchos de ellos viven con nosotras de por vida. No hay jaulas: viven dentro de casa, formando parte de una familia y recibiendo los cuidados y la estabilidad que nunca tuvieron.
+            </p>
+
+            <div class="hero-actions">
+              <a class="button" href="#como-ayudar">Quiero ayudar</a>
+              <a class="button" href="#animales">Conoce a los animales</a>
+              <a class="button" href="https://www.instagram.com/adopta_unavida/" target="_blank" rel="noopener noreferrer">Instagram</a>
+            </div>
+
+            <div class="hero-note">
+              <div>Santuario y protectora de animales en Castellón</div>
+              <div>Asociación sin ánimo de lucro y antiespecista</div>
+            </div>
+          </div>
+
+          <div class="hero-card">
+            <h3>Lo que nos hace diferentes</h3>
+            <ul>
+              <li>Acogemos casos que muchas veces nadie más puede asumir.</li>
+              <li>Muchos animales no salen en adopción por edad, enfermedad o trauma.</li>
+              <li>Se quedan con nosotras, en casa, de por vida.</li>
+              <li>La ayuda va directamente a alimentación, rescates y cuidados veterinarios.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="quienes-somos">
+        <div class="section-inner">
+          <div class="section-head">
+            <h3>Quiénes somos</h3>
+            <p>
+              Somos una asociación protectora en Castellón que también funciona como santuario. Desde hace más de diez años rescatamos animales abandonados, enfermos, mayores o con secuelas físicas y emocionales. Muchos de ellos no tienen posibilidad de adopción.
+            </p>
+          </div>
+
+          <div class="split-layout">
+            <div class="card">
+              <p>
+                Por eso, no los descartamos. <strong>Se quedan con nosotras de por vida.</strong>
+                Viven dentro de casa, con nosotras, formando parte de una familia y recuperando poco a poco la seguridad que les fue arrebatada.
+              </p>
+              <p class="quote">
+                Somos el lugar al que llegan los animales que nadie más quiere.
+              </p>
+            </div>
+
+            <div class="card image-card">
+              <img src="assets/images/sections/quienes-somos.jpg" alt="Varios perros descansando juntos en casa, dentro del santuario" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="que-hacemos">
+        <div class="section-inner">
+          <div class="section-head">
+            <h3>Qué hacemos</h3>
+            <p>
+              Rescatamos, cuidamos y acompañamos a animales que han sufrido abandono, enfermedad o situaciones extremas. Nuestro trabajo no termina cuando llegan: empieza ahí.
+            </p>
+          </div>
+
+          <div class="split-layout" style="margin-bottom: 18px;">
+            <div class="card image-card">
+              <img src="assets/images/sections/que-hacemos.jpg" alt="Animales acompañados y cuidados dentro del santuario" />
+            </div>
+
+            <div class="card highlight">
+              <h4 style="margin-bottom: 12px; text-align:left;">Cuidar también es quedarse</h4>
+              <p>
+                Nuestra labor no consiste solo en rescatar. También implica sostener vidas que requieren medicación, paciencia, seguimiento veterinario, estabilidad emocional y un hogar seguro durante años o toda una vida.
+              </p>
+            </div>
+          </div>
+
+          <div class="grid-3">
+            <article class="card">
+              <h4>Rescate</h4>
+              <p>Acogemos animales en situaciones de abandono, enfermedad o vulnerabilidad, incluso cuando son casos especialmente difíciles.</p>
+            </article>
+            <article class="card">
+              <h4>Rehabilitación</h4>
+              <p>Les damos atención veterinaria, cuidados diarios, paciencia y acompañamiento para que puedan recuperarse física y emocionalmente.</p>
+            </article>
+            <article class="card">
+              <h4>Santuario</h4>
+              <p>Muchos no pueden ser adoptados. Aquí encuentran un hogar definitivo, dentro de casa, con seguridad, dignidad y cuidados de por vida.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="como-ayudar">
+        <div class="section-inner">
+          <div class="section-head">
+            <h3>Cómo ayudar</h3>
+            <p>
+              La ayuda es lo que nos permite seguir adelante. Sin ella, no sería posible sostener todas estas vidas.
+            </p>
+          </div>
+
+          <div class="grid-help">
+            <article class="card help-card">
+              <h4>Donar</h4>
+              <p class="mini">Puedes hacer una donación puntual para ayudarnos con alimentación, tratamientos veterinarios y rescates.</p>
+              <a class="button" href="https://www.paypal.com/donate?hosted_button_id=E45Z8JABEL7WL" target="_blank" rel="noopener noreferrer">Donar ahora</a>
+            </article>
+
+            <article class="card help-card">
+              <h4>Hacerse socio</h4>
+              <p class="mini">Con una aportación económica periódica nos ayudas a mantener estabilidad y poder planificar.</p>
+              <a class="button" href="https://www.paypal.com/donate?hosted_button_id=E45Z8JABEL7WL" target="_blank" rel="noopener noreferrer">Quiero hacerme socio</a>
+            </article>
+
+            <article class="card help-card">
+              <h4>Apadrinar</h4>
+              <p class="mini">Puedes ayudar directamente a un animal concreto, cubriendo parte de sus gastos y acompañando su historia con nosotras. Al hacer la aportación, indica en PayPal el nombre del animal al que quieres apadrinar.</p>
+              <a class="button" href="https://www.paypal.com/donate?hosted_button_id=E45Z8JABEL7WL" target="_blank" rel="noopener noreferrer">Quiero apadrinar</a>
+            </article>
+
+            <article class="card help-card">
+              <h4>Teaming</h4>
+              <p class="mini">Únete a nuestro grupo de Teaming y ayúdanos con solo 1€ al mes.</p>
+              <a class="button" href="https://www.teaming.net/adoptaunavida-perrosenadopcion" target="_blank" rel="noopener noreferrer">Ir a Teaming</a>
+            </article>
+
+            <article class="card help-card">
+              <h4>Donar material</h4>
+              <p class="mini">Necesitamos pienso, medicación, mantas, productos de limpieza y otros materiales para el cuidado diario de los animales.</p>
+              <p class="linkline">Si quieres hacer una donación de productos, escríbenos a: <a href="mailto:adoptacastellon@gmail.com">adoptacastellon@gmail.com</a></p>
+            </article>
+
+            <article class="card help-card">
+              <h4>Difundir</h4>
+              <p class="mini">Seguirnos, compartir publicaciones y dar visibilidad a los casos también salva vidas.</p>
+              <a class="button" href="#redes">Ver redes</a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="animales">
+        <div class="section-inner">
+          <div class="section-head">
+            <h3>Conoce a los animales</h3>
+            <p>
+              Cada uno de ellos tiene una historia. Puedes conocer a los animales en adopción y a quienes viven con nosotras en el santuario a través de nuestra galería.
+            </p>
+          </div>
+
+          <div class="animal-box">
+            <div class="card">
+              <h4>Galería</h4>
+              <p>
+                Aquí puedes conocer mejor a los animales, sus historias y parte de su recorrido con nosotras.
+              </p>
+              <div class="socials">
+                <a class="button" href="https://adoptaunavida.framer.website/" target="_blank" rel="noopener noreferrer">Ver galería</a>
+              </div>
+            </div>
+
+            <div class="card highlight">
+              <h4>Historias que merecen ser vistas</h4>
+              <p>
+                En la galería encontrarás tanto animales en adopción como residentes permanentes del santuario: los casos invisibles, los mayores, los enfermos y quienes por fin han encontrado seguridad con nosotras.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="redes">
+        <div class="section-inner">
+          <div class="section-head">
+            <h3>Ayúdanos a darles visibilidad</h3>
+            <p>
+              Seguirnos, compartir sus historias y difundir nuestros casos también salva vidas. Las redes nos ayudan a encontrar apoyo, mover rescates y hacer que más personas conozcan su realidad.
+            </p>
+          </div>
+
+          <div class="card">
+            <div class="socials">
+              <a class="social-icon instagram" href="https://www.instagram.com/adopta_unavida/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="currentColor"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5a4.25 4.25 0 0 0 4.25 4.25h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5Zm8.88 1.75a1.12 1.12 0 1 1 0 2.25 1.12 1.12 0 0 1 0-2.25ZM12 6.5A5.5 5.5 0 1 1 6.5 12 5.5 5.5 0 0 1 12 6.5Zm0 1.5A4 4 0 1 0 16 12a4 4 0 0 0-4-4Z"/></svg>
+              </a>
+              <a class="social-icon facebook" href="https://www.facebook.com/adoptarunperrocastellon" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="currentColor"><path d="M13.5 22v-8h2.7l.4-3h-3.1V9.1c0-.9.3-1.6 1.7-1.6h1.5V4.8c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.3H8v3h2.5v8h3Z"/></svg>
+              </a>
+              <a class="social-icon tiktok" href="https://www.tiktok.com/@refugiodeelena?_r=1&_t=zn-93fpphh6kja" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="currentColor"><path d="M14 3c.5 2 1.7 3.6 3.7 4.4.8.3 1.5.5 2.3.5v2.9a8 8 0 0 1-3.7-.9v5.8A5.8 5.8 0 1 1 10.5 10v3a2.8 2.8 0 1 0 2.8 2.8V3H14Z"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contacto">
+        <div class="section-inner">
+          <div class="section-head">
+            <h3>Contacto</h3>
+            <p>
+              Si quieres ayudarnos, colaborar, donar productos o saber más sobre nuestra labor, puedes escribirnos a <strong><a href="mailto:adoptacastellon@gmail.com">adoptacastellon@gmail.com</a></strong> o contactar con nosotras a través de nuestras redes sociales.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <div class="footer-inner">
+          <div>
+            <strong>Adopta una Vida</strong><br>
+            Santuario y protectora de animales en Castellón<br>
+            Nº de registro de la asociación: CV-01-056960-CS
+          </div>
+          <div>
+            <a href="#inicio">Volver arriba ↑</a>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    const sections = document.querySelectorAll("section");
+    const navLinks = document.querySelectorAll(".menu a");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const hamburger = document.querySelector(".hamburger");
+    const mobileClose = document.querySelector(".mobile-close");
+    const mobileNavLinks = document.querySelectorAll(".mobile-nav a");
+
+    const openMobileMenu = () => {
+      mobileMenu.classList.add("open");
+      mobileMenu.setAttribute("aria-hidden", "false");
+      hamburger.setAttribute("aria-expanded", "true");
+      document.body.classList.add("menu-open");
+    };
+
+    const closeMobileMenu = () => {
+      mobileMenu.classList.remove("open");
+      mobileMenu.setAttribute("aria-hidden", "true");
+      hamburger.setAttribute("aria-expanded", "false");
+      document.body.classList.remove("menu-open");
+    };
+
+    if (hamburger) hamburger.addEventListener("click", openMobileMenu);
+    if (mobileClose) mobileClose.addEventListener("click", closeMobileMenu);
+    if (mobileMenu) {
+      mobileMenu.addEventListener("click", (e) => {
+        if (e.target === mobileMenu) closeMobileMenu();
+      });
+    }
+    mobileNavLinks.forEach(link => {
+      link.addEventListener("click", closeMobileMenu);
+    });
+
+    const updateActiveMenu = () => {
+      let current = "inicio";
+      const marker = window.scrollY + Math.min(window.innerHeight * 0.45, 320);
+
+      sections.forEach(section => {
+        if (marker >= section.offsetTop) {
+          current = section.getAttribute("id");
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove("active");
+        if (link.getAttribute("href") === "#" + current) {
+          link.classList.add("active");
+        }
+      });
+    };
+
+    window.addEventListener("scroll", updateActiveMenu, { passive: true });
+    window.addEventListener("load", updateActiveMenu);
+    window.addEventListener("resize", updateActiveMenu);
+  </script>
+</body>
+</html>

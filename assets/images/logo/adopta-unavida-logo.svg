@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="320" viewBox="0 0 800 320">
+<rect width="100%" height="100%" fill="white"/>
+<g transform="translate(40,40)">
+  <circle cx="85" cy="85" r="54" fill="#FBB040"/>
+  <circle cx="45" cy="35" r="18" fill="#111111"/>
+  <circle cx="85" cy="15" r="18" fill="#111111"/>
+  <circle cx="125" cy="35" r="18" fill="#111111"/>
+  <circle cx="165" cy="65" r="18" fill="#111111"/>
+</g>
+<text x="250" y="120" font-family="Arial, Helvetica, sans-serif" font-size="64" font-weight="700" fill="#111111">Adopta</text>
+<text x="250" y="190" font-family="Arial, Helvetica, sans-serif" font-size="64" font-weight="700" fill="#FBB040">una Vida</text>
+<text x="252" y="236" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#111111">Sustituye este logo por el definitivo si quieres</text>
+</svg>
